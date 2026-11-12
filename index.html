@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101812">
+<meta name="description" content="Animations — an elegant interactive collection of 43 presentation-style motion effects.">
+<title>Animations — The Motion Collection</title>
+<style>
+/* ==========================================================
+   GLOBAL DESIGN SYSTEM — shared tokens, reset and typography
+   ========================================================== */
+:root {
+  --page-bg:#0c130f; --surface:#121d16; --surface-raised:#18251c;
+  --text:#f3f0e6; --muted:#a8b1a4; --gold:#d8bf83; --gold-light:#ead8a9;
+  --line:rgba(226,216,184,.16); --green:#9eb99a;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --page-gutter:clamp(18px,5.5vw,86px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:radial-gradient(ellipse at 82% -5%,rgba(153,183,133,.14),transparent 35%),var(--page-bg);color:var(--text);font-family:var(--sans)}
+button,input{font:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+a{color:inherit;text-decoration:none}
+/* ==========================================================
+   HEADER SECTION CSS — fixed visual identity and navigation
+   ========================================================== */
+.site-header{height:74px;padding:0 var(--page-gutter);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;background:rgba(12,19,15,.88);backdrop-filter:blur(18px)}
+.brand{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:750;letter-spacing:.2em;text-transform:uppercase}
+.brand-symbol{width:30px;height:30px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font:18px var(--serif)}
+.main-nav{display:flex;gap:30px;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.main-nav a:hover{color:var(--gold)}
+/* ==========================================================
+   HERO SECTION CSS — title, introduction, stats and CTAs
+   ========================================================== */
+.hero-section{max-width:1500px;margin:auto;padding:clamp(76px,11vw,145px) var(--page-gutter) 78px;position:relative}
+.eyebrow,.section-kicker{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.eyebrow:before{content:"";display:inline-block;width:32px;height:1px;background:var(--gold);vertical-align:middle;margin-right:12px}
+.hero-title{font:clamp(64px,11.8vw,154px)/.86 var(--serif);font-weight:400;letter-spacing:-.065em;margin:30px 0 25px;max-width:900px}
+.hero-title em{font-weight:400;color:var(--gold)}
+.hero-description{max-width:560px;color:var(--muted);font-size:14px;line-height:1.9}
+.hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:32px}
+.action-button{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 18px;border:1px solid var(--gold);background:var(--gold);color:#172018;text-transform:uppercase;letter-spacing:.12em;font-size:10px;font-weight:800;cursor:pointer;transition:transform .2s,background .2s}
+.action-button:hover{transform:translateY(-2px);background:var(--gold-light)}
+.action-button.outline{background:transparent;color:var(--text);border-color:var(--line)}
+.action-button:disabled{opacity:.55;cursor:wait;transform:none}
+.hero-hint{font-size:10px;color:var(--muted);letter-spacing:.08em}
+.hero-stats{display:flex;gap:34px;margin-top:56px}
+.stat-item strong{display:block;font:34px var(--serif);color:var(--gold);font-weight:400}
+.stat-item span{font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase}
+/* ==========================================================
+   COLLECTION INTRO STRIP CSS
+   ========================================================== */
+.info-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px var(--page-gutter);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+.info-strip strong{color:var(--text);font-weight:500}
+/* ==========================================================
+   GALLERY TOOLBAR CSS — search and reset controls
+   ========================================================== */
+.gallery-shell{max-width:1500px;margin:auto;padding:78px var(--page-gutter) 105px}
+.gallery-toolbar{display:flex;align-items:end;justify-content:space-between;gap:22px;flex-wrap:wrap;margin-bottom:56px}
+.toolbar-title h2{font:30px var(--serif);font-weight:400;margin:9px 0 0}
+.toolbar-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.search-field{width:min(280px,70vw);display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);color:var(--gold)}
+.search-field input{width:100%;border:0;outline:0;background:transparent;color:var(--text);font-size:12px}
+.search-field input::placeholder{color:#7e897e}
+.toolbar-reset{padding:10px 13px;background:transparent;border:1px solid var(--line);color:var(--muted);font-size:9px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.toolbar-reset:hover{border-color:var(--gold);color:var(--gold)}
+/* ==========================================================
+   COLLECTION SECTION CSS — chapter headings and card grids
+   ========================================================== */
+.collection-section{margin-bottom:76px;scroll-margin-top:100px}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding-bottom:17px;margin-bottom:20px}
+.section-heading h2{font:clamp(27px,3.5vw,42px) var(--serif);font-weight:400;letter-spacing:-.03em;margin:9px 0 0}
+.section-kicker{font-size:9px;color:var(--muted);letter-spacing:.13em;margin:0}
+.section-range{font-size:10px;color:var(--gold);letter-spacing:.15em}
+.animation-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+/* ==========================================================
+   ANIMATION CARD BASE CSS — shared card frame and hover state
+   ========================================================== */
+.anim-card{min-width:0;padding:14px 15px 13px;background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 68%),var(--surface);border:1px solid var(--line);transition:border-color .25s,transform .25s;overflow:hidden}
+.anim-card:hover{border-color:rgba(216,191,131,.55);transform:translateY(-3px)}
+.anim-card.is-hidden{display:none}
+.card-meta,.card-caption{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-index{font-size:9px;letter-spacing:.16em;color:var(--gold)}
+.replay-control{width:29px;height:29px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--muted);font-size:17px;cursor:pointer;transition:transform .25s,color .2s,border-color .2s}
+.replay-control:hover{transform:rotate(90deg);color:var(--gold);border-color:var(--gold)}
+.sample-stage{height:158px;display:grid;place-items:center;position:relative;overflow:hidden;margin:7px 0 9px;background:radial-gradient(ellipse,rgba(175,197,151,.1),transparent 68%);border-bottom:1px solid rgba(255,255,255,.035);perspective:700px}
+.sample-tile{width:62px;height:62px;border-radius:17px 3px 17px 3px;background:linear-gradient(135deg,#e8d7a7,#9a8654);box-shadow:0 12px 34px rgba(0,0,0,.25);display:grid;place-items:center;color:#1b241b;font:19px var(--serif);opacity:0;transform:translateY(13px) scale(.8);will-change:transform,opacity,filter,clip-path}
+.card-caption h3{font:20px var(--serif);font-weight:400;margin:0 0 4px}
+.card-caption p{font-size:8px;color:var(--muted);letter-spacing:.13em;text-transform:uppercase;margin:0}
+.caption-arrow{font-size:17px;color:var(--gold)}
+.empty-state{display:none;color:var(--muted);font-size:12px;padding:20px 0}
+/* ==========================================================
+   FOOTER SECTION CSS
+   ========================================================== */
+.site-footer{border-top:1px solid var(--line);padding:30px var(--page-gutter);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:9px;letter-spacing:.13em;text-transform:uppercase}
+.site-footer strong{color:var(--gold);font-weight:500}
+/* ==========================================================
+   TOAST COMPONENT CSS — playback feedback
+   ========================================================== */
+.status-toast{position:fixed;z-index:40;bottom:22px;left:50%;transform:translate(-50%,18px);padding:12px 17px;background:var(--gold-light);color:#172018;font-size:10px;letter-spacing:.08em;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;white-space:nowrap;max-width:calc(100vw - 28px);overflow:hidden;text-overflow:ellipsis}
+.status-toast.visible{opacity:1;transform:translate(-50%,0)}
+/* ==========================================================
+   RESPONSIVE LAYOUT CSS — tablet, mobile and small devices
+   ========================================================== */
+@media(max-width:900px){
+  .animation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero-section{padding-bottom:65px}
+}
+@media(max-width:580px){
+  .site-header{height:64px}
+  .main-nav{gap:14px;font-size:9px}
+  .hero-section{padding-top:72px}
+  .hero-title{font-size:clamp(61px,17vw,92px)}
+  .hero-stats{gap:22px;margin-top:42px}
+  .stat-item strong{font-size:28px}
+  .gallery-shell{padding-top:54px}
+  .gallery-toolbar{margin-bottom:40px}
+  .toolbar-controls{width:100%}
+  .search-field{flex:1;width:auto}
+  .animation-grid{grid-template-columns:1fr;gap:12px}
+  .sample-stage{height:145px}
+  .section-heading{align-items:flex-start;flex-direction:column}
+  .site-footer{flex-direction:column}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
+  .anim-card.is-playing .sample-tile{animation:none!important;opacity:1;transform:none;filter:none;clip-path:none}
+}
+/* ==========================================================
+   INDIVIDUAL ANIMATION KEYFRAMES — ordered 01 through 43.
+   Every effect has a unique keyframe name and fx-XX class.
+   ========================================================== */
+
+    /* CSS ANIMATION 01: Fade — unique keyframe and trigger class */
+    @keyframes motion-fade {
+      0% { opacity:0; }
+      72% { opacity: 1; }
+      100% { opacity:1; }
+    }
+    .anim-card.fx-01.is-playing .sample-tile {
+      animation: motion-fade 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 02: Appear — unique keyframe and trigger class */
+    @keyframes motion-appear {
+      0% { opacity:0; transform:scale(.96); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); }
+    }
+    .anim-card.fx-02.is-playing .sample-tile {
+      animation: motion-appear 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 03: Fly In — unique keyframe and trigger class */
+    @keyframes motion-fly-in {
+      0% { opacity:0; transform:translateX(-115%) rotate(-5deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateX(0) rotate(0); }
+    }
+    .anim-card.fx-03.is-playing .sample-tile {
+      animation: motion-fly-in 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 04: Float In — unique keyframe and trigger class */
+    @keyframes motion-float-in {
+      0% { opacity:0; transform:translateY(55px); filter:blur(5px); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateY(0); filter:blur(0); }
+    }
+    .anim-card.fx-04.is-playing .sample-tile {
+      animation: motion-float-in 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 05: Split — unique keyframe and trigger class */
+    @keyframes motion-split {
+      0% { opacity:0; clip-path:inset(0 50% 0 50%); transform:scaleX(.65); }
+      72% { opacity: 1; }
+      100% { opacity:1; clip-path:inset(0); transform:scaleX(1); }
+    }
+    .anim-card.fx-05.is-playing .sample-tile {
+      animation: motion-split 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 06: Wipe — unique keyframe and trigger class */
+    @keyframes motion-wipe {
+      0% { opacity:1; clip-path:inset(0 100% 0 0); }
+      72% { opacity: 1; }
+      100% { opacity:1; clip-path:inset(0); }
+    }
+    .anim-card.fx-06.is-playing .sample-tile {
+      animation: motion-wipe 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 07: Shape — unique keyframe and trigger class */
+    @keyframes motion-shape {
+      0% { opacity:0; clip-path:circle(0% at 50% 50%); transform:rotate(-15deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; clip-path:circle(75% at 50% 50%); transform:rotate(0); }
+    }
+    .anim-card.fx-07.is-playing .sample-tile {
+      animation: motion-shape 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 08: Wheel — unique keyframe and trigger class */
+    @keyframes motion-wheel {
+      0% { opacity:0; clip-path:inset(0 0 0 100%); transform:rotate(-180deg) scale(.25); }
+      72% { opacity: 1; }
+      100% { opacity:1; clip-path:inset(0); transform:rotate(0) scale(1); }
+    }
+    .anim-card.fx-08.is-playing .sample-tile {
+      animation: motion-wheel 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 09: Random Bars — unique keyframe and trigger class */
+    @keyframes motion-random-bars {
+      0% { opacity:0; clip-path:inset(0 0 100% 0); filter:blur(3px); }
+      72% { opacity: 1; }
+      100% { opacity:1; clip-path:inset(0); filter:blur(0); }
+    }
+    .anim-card.fx-09.is-playing .sample-tile {
+      animation: motion-random-bars 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 10: Grow & Turn — unique keyframe and trigger class */
+    @keyframes motion-grow-turn {
+      0% { opacity:0; transform:scale(.15) rotate(-120deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1) rotate(0); }
+    }
+    .anim-card.fx-10.is-playing .sample-tile {
+      animation: motion-grow-turn 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 11: Zoom — unique keyframe and trigger class */
+    @keyframes motion-zoom {
+      0% { opacity:0; transform:scale(.15); filter:blur(7px); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); filter:blur(0); }
+    }
+    .anim-card.fx-11.is-playing .sample-tile {
+      animation: motion-zoom 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 12: Swivel — unique keyframe and trigger class */
+    @keyframes motion-swivel {
+      0% { opacity:0; transform:perspective(500px) rotateY(-90deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:perspective(500px) rotateY(0); }
+    }
+    .anim-card.fx-12.is-playing .sample-tile {
+      animation: motion-swivel 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 13: Bounce — unique keyframe and trigger class */
+    @keyframes motion-bounce {
+      0% { opacity:0; transform:translateY(-90px) scale(.75); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateY(0) scale(1); }
+    }
+    .anim-card.fx-13.is-playing .sample-tile {
+      animation: motion-bounce 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 14: Rise Up — unique keyframe and trigger class */
+    @keyframes motion-rise-up {
+      0% { opacity:0; transform:translateY(65px); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateY(0); }
+    }
+    .anim-card.fx-14.is-playing .sample-tile {
+      animation: motion-rise-up 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 15: Expand — unique keyframe and trigger class */
+    @keyframes motion-expand {
+      0% { opacity:0; transform:scale(.05); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); }
+    }
+    .anim-card.fx-15.is-playing .sample-tile {
+      animation: motion-expand 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 16: Stretch — unique keyframe and trigger class */
+    @keyframes motion-stretch {
+      0% { opacity:0; transform:scaleX(.08); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scaleX(1); }
+    }
+    .anim-card.fx-16.is-playing .sample-tile {
+      animation: motion-stretch 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 17: Pinwheel — unique keyframe and trigger class */
+    @keyframes motion-pinwheel {
+      0% { opacity:0; transform:rotate(-270deg) scale(.08); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:rotate(0) scale(1); }
+    }
+    .anim-card.fx-17.is-playing .sample-tile {
+      animation: motion-pinwheel 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 18: Spiral In — unique keyframe and trigger class */
+    @keyframes motion-spiral-in {
+      0% { opacity:0; transform:rotate(-540deg) scale(.03); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:rotate(0) scale(1); }
+    }
+    .anim-card.fx-18.is-playing .sample-tile {
+      animation: motion-spiral-in 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 19: Checkerboard — unique keyframe and trigger class */
+    @keyframes motion-checkerboard {
+      0% { opacity:0; clip-path:polygon(0 0,0 0,0 100%,0 100%); }
+      72% { opacity: 1; }
+      100% { opacity:1; clip-path:inset(0); }
+    }
+    .anim-card.fx-19.is-playing .sample-tile {
+      animation: motion-checkerboard 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 20: Blinds — unique keyframe and trigger class */
+    @keyframes motion-blinds {
+      0% { opacity:0; clip-path:inset(0 0 100% 0); transform:scaleY(.5); }
+      72% { opacity: 1; }
+      100% { opacity:1; clip-path:inset(0); transform:scaleY(1); }
+    }
+    .anim-card.fx-20.is-playing .sample-tile {
+      animation: motion-blinds 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 21: Dissolve In — unique keyframe and trigger class */
+    @keyframes motion-dissolve-in {
+      0% { opacity:0; filter:blur(14px) contrast(2); transform:scale(1.04); }
+      72% { opacity: 1; }
+      100% { opacity:1; filter:blur(0) contrast(1); transform:scale(1); }
+    }
+    .anim-card.fx-21.is-playing .sample-tile {
+      animation: motion-dissolve-in 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 22: Flash Once — unique keyframe and trigger class */
+    @keyframes motion-flash-once {
+      0% { opacity:0; filter:brightness(3); transform:scale(.8); }
+      72% { opacity: 1; }
+      100% { opacity:1; filter:brightness(1); transform:scale(1); }
+    }
+    .anim-card.fx-22.is-playing .sample-tile {
+      animation: motion-flash-once 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 23: Peek In — unique keyframe and trigger class */
+    @keyframes motion-peek-in {
+      0% { opacity:0; transform:translateX(-65%) scale(.92); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateX(0) scale(1); }
+    }
+    .anim-card.fx-23.is-playing .sample-tile {
+      animation: motion-peek-in 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 24: Glide In — unique keyframe and trigger class */
+    @keyframes motion-glide-in {
+      0% { opacity:0; transform:translateX(-80px) skewX(-9deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateX(0) skewX(0); }
+    }
+    .anim-card.fx-24.is-playing .sample-tile {
+      animation: motion-glide-in 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 25: Boomerang — unique keyframe and trigger class */
+    @keyframes motion-boomerang {
+      0% { opacity:0; transform:translateX(-110%) rotate(-18deg) scale(.7); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateX(0) rotate(0) scale(1); }
+    }
+    .anim-card.fx-25.is-playing .sample-tile {
+      animation: motion-boomerang 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 26: Sling — unique keyframe and trigger class */
+    @keyframes motion-sling {
+      0% { opacity:0; transform:translateX(-130%) skewX(-25deg) scale(.7); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateX(0) skewX(0) scale(1); }
+    }
+    .anim-card.fx-26.is-playing .sample-tile {
+      animation: motion-sling 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 27: Flip — unique keyframe and trigger class */
+    @keyframes motion-flip {
+      0% { opacity:0; transform:perspective(500px) rotateX(-100deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:perspective(500px) rotateX(0); }
+    }
+    .anim-card.fx-27.is-playing .sample-tile {
+      animation: motion-flip 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 28: Swish — unique keyframe and trigger class */
+    @keyframes motion-swish {
+      0% { opacity:0; transform:translateX(-100px) rotate(-14deg); filter:blur(4px); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateX(0) rotate(0); filter:blur(0); }
+    }
+    .anim-card.fx-28.is-playing .sample-tile {
+      animation: motion-swish 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 29: Ripple — unique keyframe and trigger class */
+    @keyframes motion-ripple {
+      0% { opacity:0; transform:scale(.25); filter:blur(8px); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); filter:blur(0); }
+    }
+    .anim-card.fx-29.is-playing .sample-tile {
+      animation: motion-ripple 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 30: Gallery — unique keyframe and trigger class */
+    @keyframes motion-gallery {
+      0% { opacity:0; transform:translateY(30px) scale(.65) rotateY(25deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateY(0) scale(1) rotateY(0); }
+    }
+    .anim-card.fx-30.is-playing .sample-tile {
+      animation: motion-gallery 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 31: Vortex — unique keyframe and trigger class */
+    @keyframes motion-vortex {
+      0% { opacity:0; transform:rotate(-720deg) scale(.02); filter:blur(5px); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:rotate(0) scale(1); filter:blur(0); }
+    }
+    .anim-card.fx-31.is-playing .sample-tile {
+      animation: motion-vortex 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 32: Compress — unique keyframe and trigger class */
+    @keyframes motion-compress {
+      0% { opacity:0; transform:scaleX(.02) scaleY(1.2); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); }
+    }
+    .anim-card.fx-32.is-playing .sample-tile {
+      animation: motion-compress 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 33: Magnify — unique keyframe and trigger class */
+    @keyframes motion-magnify {
+      0% { opacity:0; transform:scale(.18); filter:blur(5px); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); filter:blur(0); }
+    }
+    .anim-card.fx-33.is-playing .sample-tile {
+      animation: motion-magnify 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 34: Unfold — unique keyframe and trigger class */
+    @keyframes motion-unfold {
+      0% { opacity:0; clip-path:inset(0 0 100% 0); transform:perspective(400px) rotateX(-50deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; clip-path:inset(0); transform:perspective(400px) rotateX(0); }
+    }
+    .anim-card.fx-34.is-playing .sample-tile {
+      animation: motion-unfold 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 35: Curve Up — unique keyframe and trigger class */
+    @keyframes motion-curve-up {
+      0% { opacity:0; transform:translate(-55px,55px) rotate(-14deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translate(0,0) rotate(0); }
+    }
+    .anim-card.fx-35.is-playing .sample-tile {
+      animation: motion-curve-up 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 36: Curve Down — unique keyframe and trigger class */
+    @keyframes motion-curve-down {
+      0% { opacity:0; transform:translate(55px,-55px) rotate(14deg); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translate(0,0) rotate(0); }
+    }
+    .anim-card.fx-36.is-playing .sample-tile {
+      animation: motion-curve-down 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 37: Ascend — unique keyframe and trigger class */
+    @keyframes motion-ascend {
+      0% { opacity:0; transform:translateY(95px) scale(.85); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateY(0) scale(1); }
+    }
+    .anim-card.fx-37.is-playing .sample-tile {
+      animation: motion-ascend 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 38: Descend — unique keyframe and trigger class */
+    @keyframes motion-descend {
+      0% { opacity:0; transform:translateY(-95px) scale(.85); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateY(0) scale(1); }
+    }
+    .anim-card.fx-38.is-playing .sample-tile {
+      animation: motion-descend 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 39: Credits — unique keyframe and trigger class */
+    @keyframes motion-credits {
+      0% { opacity:0; transform:translateY(75px) scale(.9); filter:blur(3px); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
+    }
+    .anim-card.fx-39.is-playing .sample-tile {
+      animation: motion-credits 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 40: Faded Zoom — unique keyframe and trigger class */
+    @keyframes motion-faded-zoom {
+      0% { opacity:0; transform:scale(1.5); filter:blur(8px); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); filter:blur(0); }
+    }
+    .anim-card.fx-40.is-playing .sample-tile {
+      animation: motion-faded-zoom 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 41: Basic Zoom — unique keyframe and trigger class */
+    @keyframes motion-basic-zoom {
+      0% { opacity:0; transform:scale(.7); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); }
+    }
+    .anim-card.fx-41.is-playing .sample-tile {
+      animation: motion-basic-zoom 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 42: Zoom In — unique keyframe and trigger class */
+    @keyframes motion-zoom-in {
+      0% { opacity:0; transform:scale(.25); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); }
+    }
+    .anim-card.fx-42.is-playing .sample-tile {
+      animation: motion-zoom-in 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+    /* CSS ANIMATION 43: Zoom Out — unique keyframe and trigger class */
+    @keyframes motion-zoom-out {
+      0% { opacity:0; transform:scale(1.65); }
+      72% { opacity: 1; }
+      100% { opacity:1; transform:scale(1); }
+    }
+    .anim-card.fx-43.is-playing .sample-tile {
+      animation: motion-zoom-out 900ms cubic-bezier(.18,.72,.24,1) both;
+    }
+    
+</style>
+</head>
+<body>
+<!-- HEADER SECTION HTML -->
+<header class="site-header" id="page-top">
+  <a class="brand" href="#page-top"><span class="brand-symbol">A</span><span>Animations</span></a>
+  <nav class="main-nav" aria-label="Main navigation"><a href="#collection-01">Library</a><a href="#about-collection">About</a></nav>
+</header>
+
+<!-- HERO SECTION HTML -->
+<main>
+<section class="hero-section">
+  <div class="eyebrow">The motion collection · 43 effects</div>
+  <h1 class="hero-title">Make every<br>moment <em>move.</em></h1>
+  <p class="hero-description">A considered collection of classic presentation-style animations. Explore every effect, replay it individually, or experience the complete sequence from beginning to end.</p>
+  <div class="hero-actions">
+    <a class="action-button" href="#collection-01">Explore the collection&nbsp; ↘</a>
+    <button class="action-button outline" id="play-all-button" type="button">▶ &nbsp;Play all in order</button>
+    <span class="hero-hint">43 effects · 3 collections</span>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><strong>43</strong><span>Motion effects</span></div>
+    <div class="stat-item"><strong>03</strong><span>Collections</span></div>
+    <div class="stat-item"><strong>01</strong><span>Exact sequence</span></div>
+  </div>
+</section>
+
+<div class="info-strip"><span><strong>01 / 43</strong> &nbsp; Complete animation index</span><span>One page · Original sequence · Interactive previews</span></div>
+
+<!-- GALLERY SECTION HTML — three collections in strict sequence -->
+<section class="gallery-shell" id="gallery-library">
+  <div class="gallery-toolbar">
+    <div class="toolbar-title"><div class="eyebrow">The gallery</div><h2>Explore the effects</h2></div>
+    <div class="toolbar-controls">
+      <label class="search-field"><span>⌕</span><input id="animation-search-input" type="search" placeholder="Search an animation…" aria-label="Search animations"></label>
+      <button class="toolbar-reset" id="reset-search-button" type="button">Reset</button>
+    </div>
+  </div>
+  
+    <!-- PAGE SECTION 01: Foundations & entrances -->
+    <section class="collection-section" id="collection-01">
+      <header class="section-heading">
+        <div><p class="section-kicker">01–15 · Clean arrivals, reveals and shape transformations</p><h2>Foundations & entrances</h2></div>
+        <span class="section-range">01 / 03</span>
+      </header>
+      <div class="animation-grid">
+        <!-- HTML SECTION CARD 01: Fade -->
+        <article class="anim-card fx-01" id="animation-01" data-index="1" data-search="fade">
+          <div class="card-meta"><span class="card-index">01 / 43</span>
+            <button class="replay-control" type="button" data-replay="1" aria-label="Replay Fade">↻</button></div>
+          <div class="sample-stage" aria-label="Fade animation preview">
+            <div class="sample-tile"><span>01</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Fade</h3><p>Motion effect · 01</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 02: Appear -->
+        <article class="anim-card fx-02" id="animation-02" data-index="2" data-search="appear">
+          <div class="card-meta"><span class="card-index">02 / 43</span>
+            <button class="replay-control" type="button" data-replay="2" aria-label="Replay Appear">↻</button></div>
+          <div class="sample-stage" aria-label="Appear animation preview">
+            <div class="sample-tile"><span>02</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Appear</h3><p>Motion effect · 02</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 03: Fly In -->
+        <article class="anim-card fx-03" id="animation-03" data-index="3" data-search="fly in">
+          <div class="card-meta"><span class="card-index">03 / 43</span>
+            <button class="replay-control" type="button" data-replay="3" aria-label="Replay Fly In">↻</button></div>
+          <div class="sample-stage" aria-label="Fly In animation preview">
+            <div class="sample-tile"><span>03</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Fly In</h3><p>Motion effect · 03</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 04: Float In -->
+        <article class="anim-card fx-04" id="animation-04" data-index="4" data-search="float in">
+          <div class="card-meta"><span class="card-index">04 / 43</span>
+            <button class="replay-control" type="button" data-replay="4" aria-label="Replay Float In">↻</button></div>
+          <div class="sample-stage" aria-label="Float In animation preview">
+            <div class="sample-tile"><span>04</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Float In</h3><p>Motion effect · 04</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 05: Split -->
+        <article class="anim-card fx-05" id="animation-05" data-index="5" data-search="split">
+          <div class="card-meta"><span class="card-index">05 / 43</span>
+            <button class="replay-control" type="button" data-replay="5" aria-label="Replay Split">↻</button></div>
+          <div class="sample-stage" aria-label="Split animation preview">
+            <div class="sample-tile"><span>05</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Split</h3><p>Motion effect · 05</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 06: Wipe -->
+        <article class="anim-card fx-06" id="animation-06" data-index="6" data-search="wipe">
+          <div class="card-meta"><span class="card-index">06 / 43</span>
+            <button class="replay-control" type="button" data-replay="6" aria-label="Replay Wipe">↻</button></div>
+          <div class="sample-stage" aria-label="Wipe animation preview">
+            <div class="sample-tile"><span>06</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Wipe</h3><p>Motion effect · 06</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 07: Shape -->
+        <article class="anim-card fx-07" id="animation-07" data-index="7" data-search="shape">
+          <div class="card-meta"><span class="card-index">07 / 43</span>
+            <button class="replay-control" type="button" data-replay="7" aria-label="Replay Shape">↻</button></div>
+          <div class="sample-stage" aria-label="Shape animation preview">
+            <div class="sample-tile"><span>07</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Shape</h3><p>Motion effect · 07</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 08: Wheel -->
+        <article class="anim-card fx-08" id="animation-08" data-index="8" data-search="wheel">
+          <div class="card-meta"><span class="card-index">08 / 43</span>
+            <button class="replay-control" type="button" data-replay="8" aria-label="Replay Wheel">↻</button></div>
+          <div class="sample-stage" aria-label="Wheel animation preview">
+            <div class="sample-tile"><span>08</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Wheel</h3><p>Motion effect · 08</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 09: Random Bars -->
+        <article class="anim-card fx-09" id="animation-09" data-index="9" data-search="random bars">
+          <div class="card-meta"><span class="card-index">09 / 43</span>
+            <button class="replay-control" type="button" data-replay="9" aria-label="Replay Random Bars">↻</button></div>
+          <div class="sample-stage" aria-label="Random Bars animation preview">
+            <div class="sample-tile"><span>09</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Random Bars</h3><p>Motion effect · 09</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 10: Grow &amp; Turn -->
+        <article class="anim-card fx-10" id="animation-10" data-index="10" data-search="grow &amp; turn">
+          <div class="card-meta"><span class="card-index">10 / 43</span>
+            <button class="replay-control" type="button" data-replay="10" aria-label="Replay Grow &amp; Turn">↻</button></div>
+          <div class="sample-stage" aria-label="Grow &amp; Turn animation preview">
+            <div class="sample-tile"><span>10</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Grow &amp; Turn</h3><p>Motion effect · 10</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 11: Zoom -->
+        <article class="anim-card fx-11" id="animation-11" data-index="11" data-search="zoom">
+          <div class="card-meta"><span class="card-index">11 / 43</span>
+            <button class="replay-control" type="button" data-replay="11" aria-label="Replay Zoom">↻</button></div>
+          <div class="sample-stage" aria-label="Zoom animation preview">
+            <div class="sample-tile"><span>11</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Zoom</h3><p>Motion effect · 11</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 12: Swivel -->
+        <article class="anim-card fx-12" id="animation-12" data-index="12" data-search="swivel">
+          <div class="card-meta"><span class="card-index">12 / 43</span>
+            <button class="replay-control" type="button" data-replay="12" aria-label="Replay Swivel">↻</button></div>
+          <div class="sample-stage" aria-label="Swivel animation preview">
+            <div class="sample-tile"><span>12</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Swivel</h3><p>Motion effect · 12</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 13: Bounce -->
+        <article class="anim-card fx-13" id="animation-13" data-index="13" data-search="bounce">
+          <div class="card-meta"><span class="card-index">13 / 43</span>
+            <button class="replay-control" type="button" data-replay="13" aria-label="Replay Bounce">↻</button></div>
+          <div class="sample-stage" aria-label="Bounce animation preview">
+            <div class="sample-tile"><span>13</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Bounce</h3><p>Motion effect · 13</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 14: Rise Up -->
+        <article class="anim-card fx-14" id="animation-14" data-index="14" data-search="rise up">
+          <div class="card-meta"><span class="card-index">14 / 43</span>
+            <button class="replay-control" type="button" data-replay="14" aria-label="Replay Rise Up">↻</button></div>
+          <div class="sample-stage" aria-label="Rise Up animation preview">
+            <div class="sample-tile"><span>14</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Rise Up</h3><p>Motion effect · 14</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 15: Expand -->
+        <article class="anim-card fx-15" id="animation-15" data-index="15" data-search="expand">
+          <div class="card-meta"><span class="card-index">15 / 43</span>
+            <button class="replay-control" type="button" data-replay="15" aria-label="Replay Expand">↻</button></div>
+          <div class="sample-stage" aria-label="Expand animation preview">
+            <div class="sample-tile"><span>15</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Expand</h3><p>Motion effect · 15</p></div><span class="caption-arrow">↗</span></div>
+        </article></div>
+      <p class="empty-state">No animations match your search in this collection.</p>
+    </section>
+    <!-- PAGE SECTION 02: Expressive transitions -->
+    <section class="collection-section" id="collection-02">
+      <header class="section-heading">
+        <div><p class="section-kicker">16–30 · Distortion, direction, perspective and momentum</p><h2>Expressive transitions</h2></div>
+        <span class="section-range">02 / 03</span>
+      </header>
+      <div class="animation-grid">
+        <!-- HTML SECTION CARD 16: Stretch -->
+        <article class="anim-card fx-16" id="animation-16" data-index="16" data-search="stretch">
+          <div class="card-meta"><span class="card-index">16 / 43</span>
+            <button class="replay-control" type="button" data-replay="16" aria-label="Replay Stretch">↻</button></div>
+          <div class="sample-stage" aria-label="Stretch animation preview">
+            <div class="sample-tile"><span>16</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Stretch</h3><p>Motion effect · 16</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 17: Pinwheel -->
+        <article class="anim-card fx-17" id="animation-17" data-index="17" data-search="pinwheel">
+          <div class="card-meta"><span class="card-index">17 / 43</span>
+            <button class="replay-control" type="button" data-replay="17" aria-label="Replay Pinwheel">↻</button></div>
+          <div class="sample-stage" aria-label="Pinwheel animation preview">
+            <div class="sample-tile"><span>17</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Pinwheel</h3><p>Motion effect · 17</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 18: Spiral In -->
+        <article class="anim-card fx-18" id="animation-18" data-index="18" data-search="spiral in">
+          <div class="card-meta"><span class="card-index">18 / 43</span>
+            <button class="replay-control" type="button" data-replay="18" aria-label="Replay Spiral In">↻</button></div>
+          <div class="sample-stage" aria-label="Spiral In animation preview">
+            <div class="sample-tile"><span>18</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Spiral In</h3><p>Motion effect · 18</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 19: Checkerboard -->
+        <article class="anim-card fx-19" id="animation-19" data-index="19" data-search="checkerboard">
+          <div class="card-meta"><span class="card-index">19 / 43</span>
+            <button class="replay-control" type="button" data-replay="19" aria-label="Replay Checkerboard">↻</button></div>
+          <div class="sample-stage" aria-label="Checkerboard animation preview">
+            <div class="sample-tile"><span>19</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Checkerboard</h3><p>Motion effect · 19</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 20: Blinds -->
+        <article class="anim-card fx-20" id="animation-20" data-index="20" data-search="blinds">
+          <div class="card-meta"><span class="card-index">20 / 43</span>
+            <button class="replay-control" type="button" data-replay="20" aria-label="Replay Blinds">↻</button></div>
+          <div class="sample-stage" aria-label="Blinds animation preview">
+            <div class="sample-tile"><span>20</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Blinds</h3><p>Motion effect · 20</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 21: Dissolve In -->
+        <article class="anim-card fx-21" id="animation-21" data-index="21" data-search="dissolve in">
+          <div class="card-meta"><span class="card-index">21 / 43</span>
+            <button class="replay-control" type="button" data-replay="21" aria-label="Replay Dissolve In">↻</button></div>
+          <div class="sample-stage" aria-label="Dissolve In animation preview">
+            <div class="sample-tile"><span>21</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Dissolve In</h3><p>Motion effect · 21</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 22: Flash Once -->
+        <article class="anim-card fx-22" id="animation-22" data-index="22" data-search="flash once">
+          <div class="card-meta"><span class="card-index">22 / 43</span>
+            <button class="replay-control" type="button" data-replay="22" aria-label="Replay Flash Once">↻</button></div>
+          <div class="sample-stage" aria-label="Flash Once animation preview">
+            <div class="sample-tile"><span>22</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Flash Once</h3><p>Motion effect · 22</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 23: Peek In -->
+        <article class="anim-card fx-23" id="animation-23" data-index="23" data-search="peek in">
+          <div class="card-meta"><span class="card-index">23 / 43</span>
+            <button class="replay-control" type="button" data-replay="23" aria-label="Replay Peek In">↻</button></div>
+          <div class="sample-stage" aria-label="Peek In animation preview">
+            <div class="sample-tile"><span>23</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Peek In</h3><p>Motion effect · 23</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 24: Glide In -->
+        <article class="anim-card fx-24" id="animation-24" data-index="24" data-search="glide in">
+          <div class="card-meta"><span class="card-index">24 / 43</span>
+            <button class="replay-control" type="button" data-replay="24" aria-label="Replay Glide In">↻</button></div>
+          <div class="sample-stage" aria-label="Glide In animation preview">
+            <div class="sample-tile"><span>24</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Glide In</h3><p>Motion effect · 24</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 25: Boomerang -->
+        <article class="anim-card fx-25" id="animation-25" data-index="25" data-search="boomerang">
+          <div class="card-meta"><span class="card-index">25 / 43</span>
+            <button class="replay-control" type="button" data-replay="25" aria-label="Replay Boomerang">↻</button></div>
+          <div class="sample-stage" aria-label="Boomerang animation preview">
+            <div class="sample-tile"><span>25</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Boomerang</h3><p>Motion effect · 25</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 26: Sling -->
+        <article class="anim-card fx-26" id="animation-26" data-index="26" data-search="sling">
+          <div class="card-meta"><span class="card-index">26 / 43</span>
+            <button class="replay-control" type="button" data-replay="26" aria-label="Replay Sling">↻</button></div>
+          <div class="sample-stage" aria-label="Sling animation preview">
+            <div class="sample-tile"><span>26</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Sling</h3><p>Motion effect · 26</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 27: Flip -->
+        <article class="anim-card fx-27" id="animation-27" data-index="27" data-search="flip">
+          <div class="card-meta"><span class="card-index">27 / 43</span>
+            <button class="replay-control" type="button" data-replay="27" aria-label="Replay Flip">↻</button></div>
+          <div class="sample-stage" aria-label="Flip animation preview">
+            <div class="sample-tile"><span>27</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Flip</h3><p>Motion effect · 27</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 28: Swish -->
+        <article class="anim-card fx-28" id="animation-28" data-index="28" data-search="swish">
+          <div class="card-meta"><span class="card-index">28 / 43</span>
+            <button class="replay-control" type="button" data-replay="28" aria-label="Replay Swish">↻</button></div>
+          <div class="sample-stage" aria-label="Swish animation preview">
+            <div class="sample-tile"><span>28</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Swish</h3><p>Motion effect · 28</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 29: Ripple -->
+        <article class="anim-card fx-29" id="animation-29" data-index="29" data-search="ripple">
+          <div class="card-meta"><span class="card-index">29 / 43</span>
+            <button class="replay-control" type="button" data-replay="29" aria-label="Replay Ripple">↻</button></div>
+          <div class="sample-stage" aria-label="Ripple animation preview">
+            <div class="sample-tile"><span>29</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Ripple</h3><p>Motion effect · 29</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 30: Gallery -->
+        <article class="anim-card fx-30" id="animation-30" data-index="30" data-search="gallery">
+          <div class="card-meta"><span class="card-index">30 / 43</span>
+            <button class="replay-control" type="button" data-replay="30" aria-label="Replay Gallery">↻</button></div>
+          <div class="sample-stage" aria-label="Gallery animation preview">
+            <div class="sample-tile"><span>30</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Gallery</h3><p>Motion effect · 30</p></div><span class="caption-arrow">↗</span></div>
+        </article></div>
+      <p class="empty-state">No animations match your search in this collection.</p>
+    </section>
+    <!-- PAGE SECTION 03: Depth, movement & scale -->
+    <section class="collection-section" id="collection-03">
+      <header class="section-heading">
+        <div><p class="section-kicker">31–43 · Dramatic motion, curves, credits and zoom variations</p><h2>Depth, movement & scale</h2></div>
+        <span class="section-range">03 / 03</span>
+      </header>
+      <div class="animation-grid">
+        <!-- HTML SECTION CARD 31: Vortex -->
+        <article class="anim-card fx-31" id="animation-31" data-index="31" data-search="vortex">
+          <div class="card-meta"><span class="card-index">31 / 43</span>
+            <button class="replay-control" type="button" data-replay="31" aria-label="Replay Vortex">↻</button></div>
+          <div class="sample-stage" aria-label="Vortex animation preview">
+            <div class="sample-tile"><span>31</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Vortex</h3><p>Motion effect · 31</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 32: Compress -->
+        <article class="anim-card fx-32" id="animation-32" data-index="32" data-search="compress">
+          <div class="card-meta"><span class="card-index">32 / 43</span>
+            <button class="replay-control" type="button" data-replay="32" aria-label="Replay Compress">↻</button></div>
+          <div class="sample-stage" aria-label="Compress animation preview">
+            <div class="sample-tile"><span>32</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Compress</h3><p>Motion effect · 32</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 33: Magnify -->
+        <article class="anim-card fx-33" id="animation-33" data-index="33" data-search="magnify">
+          <div class="card-meta"><span class="card-index">33 / 43</span>
+            <button class="replay-control" type="button" data-replay="33" aria-label="Replay Magnify">↻</button></div>
+          <div class="sample-stage" aria-label="Magnify animation preview">
+            <div class="sample-tile"><span>33</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Magnify</h3><p>Motion effect · 33</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 34: Unfold -->
+        <article class="anim-card fx-34" id="animation-34" data-index="34" data-search="unfold">
+          <div class="card-meta"><span class="card-index">34 / 43</span>
+            <button class="replay-control" type="button" data-replay="34" aria-label="Replay Unfold">↻</button></div>
+          <div class="sample-stage" aria-label="Unfold animation preview">
+            <div class="sample-tile"><span>34</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Unfold</h3><p>Motion effect · 34</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 35: Curve Up -->
+        <article class="anim-card fx-35" id="animation-35" data-index="35" data-search="curve up">
+          <div class="card-meta"><span class="card-index">35 / 43</span>
+            <button class="replay-control" type="button" data-replay="35" aria-label="Replay Curve Up">↻</button></div>
+          <div class="sample-stage" aria-label="Curve Up animation preview">
+            <div class="sample-tile"><span>35</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Curve Up</h3><p>Motion effect · 35</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 36: Curve Down -->
+        <article class="anim-card fx-36" id="animation-36" data-index="36" data-search="curve down">
+          <div class="card-meta"><span class="card-index">36 / 43</span>
+            <button class="replay-control" type="button" data-replay="36" aria-label="Replay Curve Down">↻</button></div>
+          <div class="sample-stage" aria-label="Curve Down animation preview">
+            <div class="sample-tile"><span>36</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Curve Down</h3><p>Motion effect · 36</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 37: Ascend -->
+        <article class="anim-card fx-37" id="animation-37" data-index="37" data-search="ascend">
+          <div class="card-meta"><span class="card-index">37 / 43</span>
+            <button class="replay-control" type="button" data-replay="37" aria-label="Replay Ascend">↻</button></div>
+          <div class="sample-stage" aria-label="Ascend animation preview">
+            <div class="sample-tile"><span>37</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Ascend</h3><p>Motion effect · 37</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 38: Descend -->
+        <article class="anim-card fx-38" id="animation-38" data-index="38" data-search="descend">
+          <div class="card-meta"><span class="card-index">38 / 43</span>
+            <button class="replay-control" type="button" data-replay="38" aria-label="Replay Descend">↻</button></div>
+          <div class="sample-stage" aria-label="Descend animation preview">
+            <div class="sample-tile"><span>38</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Descend</h3><p>Motion effect · 38</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 39: Credits -->
+        <article class="anim-card fx-39" id="animation-39" data-index="39" data-search="credits">
+          <div class="card-meta"><span class="card-index">39 / 43</span>
+            <button class="replay-control" type="button" data-replay="39" aria-label="Replay Credits">↻</button></div>
+          <div class="sample-stage" aria-label="Credits animation preview">
+            <div class="sample-tile"><span>39</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Credits</h3><p>Motion effect · 39</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 40: Faded Zoom -->
+        <article class="anim-card fx-40" id="animation-40" data-index="40" data-search="faded zoom">
+          <div class="card-meta"><span class="card-index">40 / 43</span>
+            <button class="replay-control" type="button" data-replay="40" aria-label="Replay Faded Zoom">↻</button></div>
+          <div class="sample-stage" aria-label="Faded Zoom animation preview">
+            <div class="sample-tile"><span>40</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Faded Zoom</h3><p>Motion effect · 40</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 41: Basic Zoom -->
+        <article class="anim-card fx-41" id="animation-41" data-index="41" data-search="basic zoom">
+          <div class="card-meta"><span class="card-index">41 / 43</span>
+            <button class="replay-control" type="button" data-replay="41" aria-label="Replay Basic Zoom">↻</button></div>
+          <div class="sample-stage" aria-label="Basic Zoom animation preview">
+            <div class="sample-tile"><span>41</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Basic Zoom</h3><p>Motion effect · 41</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 42: Zoom In -->
+        <article class="anim-card fx-42" id="animation-42" data-index="42" data-search="zoom in">
+          <div class="card-meta"><span class="card-index">42 / 43</span>
+            <button class="replay-control" type="button" data-replay="42" aria-label="Replay Zoom In">↻</button></div>
+          <div class="sample-stage" aria-label="Zoom In animation preview">
+            <div class="sample-tile"><span>42</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Zoom In</h3><p>Motion effect · 42</p></div><span class="caption-arrow">↗</span></div>
+        </article>
+        <!-- HTML SECTION CARD 43: Zoom Out -->
+        <article class="anim-card fx-43" id="animation-43" data-index="43" data-search="zoom out">
+          <div class="card-meta"><span class="card-index">43 / 43</span>
+            <button class="replay-control" type="button" data-replay="43" aria-label="Replay Zoom Out">↻</button></div>
+          <div class="sample-stage" aria-label="Zoom Out animation preview">
+            <div class="sample-tile"><span>43</span></div>
+          </div>
+          <div class="card-caption"><div><h3>Zoom Out</h3><p>Motion effect · 43</p></div><span class="caption-arrow">↗</span></div>
+        </article></div>
+      <p class="empty-state">No animations match your search in this collection.</p>
+    </section>
+</section>
+
+<!-- ABOUT / CLOSING STRIP HTML -->
+<section class="info-strip" id="about-collection"><span><strong>Animations</strong> &nbsp; A motion reference</span><span>Designed with intention · Built for discovery</span></section>
+</main>
+
+<!-- FOOTER SECTION HTML -->
+<footer class="site-footer"><span>© 2026 <strong>Animations</strong> · The motion collection</span><span>Vanilla HTML · CSS · JavaScript</span></footer>
+<div class="status-toast" id="animation-status-toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ==========================================================
+   JAVASCRIPT SECTION 00 — DOM references and shared state
+   ========================================================== */
+(() => {
+  'use strict';
+  const animationSearchInput = document.getElementById('animation-search-input');
+  const resetSearchButton = document.getElementById('reset-search-button');
+  const playAllButton = document.getElementById('play-all-button');
+  const statusToast = document.getElementById('animation-status-toast');
+  const allAnimationCards = Array.from(document.querySelectorAll('.anim-card'));
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let sequenceIsPlaying = false;
+  let toastTimeoutId = null;
+
+  /* JAVASCRIPT SECTION 01 — status toast feedback */
+  function showStatusToast(message) {
+    statusToast.textContent = message;
+    statusToast.classList.add('visible');
+    window.clearTimeout(toastTimeoutId);
+    toastTimeoutId = window.setTimeout(() => statusToast.classList.remove('visible'), 2100);
+  }
+
+  /* JAVASCRIPT SECTION 02 — replay a specific animation card */
+  function replaySingleAnimation(animationNumber, shouldScroll = false) {
+    const selectedCard = allAnimationCards.find(card => Number(card.dataset.index) === animationNumber);
+    if (!selectedCard) return;
+    selectedCard.classList.remove('is-playing');
+    void selectedCard.offsetWidth;
+    selectedCard.classList.add('is-playing');
+    if (shouldScroll) selectedCard.scrollIntoView({behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center'});
+    window.setTimeout(() => selectedCard.classList.remove('is-playing'), 1050);
+  }
+
+  /* JAVASCRIPT SECTION 03 — bind all 43 unique replay controls */
+  document.querySelectorAll('[data-replay]').forEach(replayButton => {
+    replayButton.addEventListener('click', () => {
+      const animationNumber = Number(replayButton.dataset.replay);
+      replaySingleAnimation(animationNumber);
+    });
+  });
+
+  /* JAVASCRIPT SECTION 04 — play every animation in strict 01 → 43 order */
+  async function playAllAnimationsInSequence() {
+    if (sequenceIsPlaying) return;
+    sequenceIsPlaying = true;
+    playAllButton.disabled = true;
+    playAllButton.textContent = 'Playing sequence…';
+    showStatusToast('Starting the complete sequence · 01 of 43');
+
+    for (let animationNumber = 1; animationNumber <= 43; animationNumber += 1) {
+      if (!sequenceIsPlaying) break;
+      const currentCard = allAnimationCards.find(card => Number(card.dataset.index) === animationNumber);
+      if (currentCard) {
+        currentCard.classList.remove('is-playing');
+        void currentCard.offsetWidth;
+        currentCard.classList.add('is-playing');
+        currentCard.scrollIntoView({behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center'});
+        showStatusToast(`Playing ${String(animationNumber).padStart(2, '0')} / 43 · ${currentCard.dataset.search}`);
+      }
+      await new Promise(resolve => window.setTimeout(resolve, prefersReducedMotion ? 250 : 1050));
+    }
+
+    allAnimationCards.forEach(card => card.classList.remove('is-playing'));
+    sequenceIsPlaying = false;
+    playAllButton.disabled = false;
+    playAllButton.textContent = '▶  Play all in order';
+    showStatusToast('Sequence complete · 43 of 43 animations');
+  }
+  playAllButton.addEventListener('click', playAllAnimationsInSequence);
+
+  /* JAVASCRIPT SECTION 05 — live search without changing original card order */
+  function filterAnimationCards() {
+    const searchTerm = animationSearchInput.value.trim().toLowerCase();
+    document.querySelectorAll('.collection-section').forEach(collection => {
+      let visibleCards = 0;
+      collection.querySelectorAll('.anim-card').forEach(card => {
+        const matches = card.dataset.search.includes(searchTerm) || String(card.dataset.index).includes(searchTerm);
+        card.classList.toggle('is-hidden', !matches);
+        if (matches) visibleCards += 1;
+      });
+      collection.querySelector('.empty-state').style.display = visibleCards ? 'none' : 'block';
+    });
+  }
+  animationSearchInput.addEventListener('input', filterAnimationCards);
+
+  /* JAVASCRIPT SECTION 06 — reset search to restore all 43 cards */
+  resetSearchButton.addEventListener('click', () => {
+    animationSearchInput.value = '';
+    filterAnimationCards();
+    animationSearchInput.focus();
+  });
+
+  /* JAVASCRIPT SECTION 07 — reveal previews when cards enter the viewport */
+  if ('IntersectionObserver' in window && !prefersReducedMotion) {
+    const previewObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const observedCard = entry.target;
+        if (observedCard.dataset.previewShown === 'true') {
+          previewObserver.unobserve(observedCard);
+          return;
+        }
+        observedCard.dataset.previewShown = 'true';
+        observedCard.classList.remove('is-playing');
+        void observedCard.offsetWidth;
+        observedCard.classList.add('is-playing');
+        window.setTimeout(() => observedCard.classList.remove('is-playing'), 1000);
+        previewObserver.unobserve(observedCard);
+      });
+    }, {threshold: 0.45});
+    allAnimationCards.forEach(card => previewObserver.observe(card));
+  } else if (prefersReducedMotion) {
+    allAnimationCards.forEach(card => {
+      const previewTile = card.querySelector('.sample-tile');
+      previewTile.style.opacity = '1';
+      previewTile.style.transform = 'none';
+    });
+  }
+})();
+</script>
+</body>
+</html>
